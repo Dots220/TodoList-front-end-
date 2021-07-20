@@ -1,48 +1,21 @@
-import classes from './App.module.css'
 import TodoList from '../containers/TodoList/TodoList'
 import { useState } from 'react'
-import { Button, TextField } from '@material-ui/core'
 
 function App() {
    const [todos, setTodos] = useState([])
 
-   const deleteFunc = (id) => {
-      const copyTodos = todos.concat()
-      copyTodos.splice(id, 1)
-      setTodos(copyTodos)
+   const deleteFun = (index) => {
+      let arr = todos.concat()
+      arr.splice(index, 1)
+      setTodos(arr)
    }
 
-   const addTodo = () => {
-      setTodos((prevState) => [
-         ...prevState,
-         {
-            text: inpValue,
-         },
-      ])
-
-      setInpValue('')
+   const editFun = (index, value) => {
+      let arr = todos.concat()
+      arr[index] = { ...arr[index], text: value }
    }
 
-   const [inpValue, setInpValue] = useState('')
-
-   return (
-      <div className={classes.root}>
-         <TodoList todos={todos} deleteFunc={deleteFunc} />
-
-         <h1>{inpValue || 'None'}</h1>
-
-         <TextField
-            label={'New todo'}
-            variant="outlined"
-            value={inpValue}
-            onChange={(event) => setInpValue(event.target.value)}
-         />
-
-         <Button onClick={addTodo} variant={'contained'} color={'primary'}>
-            Add
-         </Button>
-      </div>
-   )
+   return <TodoList />
 }
 
 export default App

@@ -1,23 +1,24 @@
-import './TodoItem.module.css'
-import classes from './TodoItem.module.css'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { Button, Grid } from '@material-ui/core'
+import CreateIcon from '@material-ui/icons/Create'
+import classes from './TodoItem.module.css'
+import { Button } from '@material-ui/core'
 
-const TodoItem = ({ text, deleteFunc }) => {
+const TodoItem = ({ text, deleteFunction }) => {
    return (
       <div className={classes.root}>
-         <Grid className={classes.textContent}>
-            <div>{text}</div>
-         </Grid>
+         <input className={classes.checkBox} type="checkbox" />
 
-         <Button
-            className={classes.delete}
-            variant={'contained'}
-            color={'primary'}
-            onClick={deleteFunc}
-         >
-            <DeleteIcon />
-         </Button>
+         <div className={classes.text}>{text}</div>
+
+         <div>
+            <Button className={classes.edit}>
+               <CreateIcon />
+            </Button>
+
+            <Button className={classes.delete} onClick={deleteFunction}>
+               <DeleteIcon fontSize={'medium'} />
+            </Button>
+         </div>
       </div>
    )
 }
