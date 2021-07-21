@@ -3,7 +3,7 @@ import CreateIcon from '@material-ui/icons/Create'
 import classes from './TodoItem.module.css'
 import { Button } from '@material-ui/core'
 
-const TodoItem = ({ text, deleteFunction }) => {
+const TodoItem = ({ text, deleteFunction, editElem }) => {
    return (
       <div className={classes.root}>
          <input className={classes.checkBox} type="checkbox" />
@@ -11,7 +11,7 @@ const TodoItem = ({ text, deleteFunction }) => {
          <div className={classes.text}>{text}</div>
 
          <div>
-            <Button className={classes.edit}>
+            <Button className={classes.edit} onClick={editElem}>
                <CreateIcon />
             </Button>
 

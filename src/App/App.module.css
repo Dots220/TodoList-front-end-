@@ -1,6 +1,24 @@
 .root {
-  text-align: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: #9797a0;
+   text-align: center;
+   height: 100vh;
+   width: 100vw;
+   background-color: #9797a0;
+}
+
+.container {
+   width: 100%;
+   background-color: burlywood;
+   height: 15%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.input {
+   display: flex;
+   align-items: center;
+}
+
+.add {
+   height: 100%;
 }
