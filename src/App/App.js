@@ -1,6 +1,6 @@
 import classes from './App.module.css'
 import TodoList from '../containers/TodoList/TodoList'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import { Button, Modal } from '@material-ui/core'
@@ -8,7 +8,9 @@ import { Button, Modal } from '@material-ui/core'
 function App() {
    const [todos, setTodos] = useState([])
    const [value, setValue] = useState('')
-   const [showModal, setShowModal] = useState(false)
+   useEffect(() => {
+      localStorage.setItem('todos', JSON.stringify(todos))
+   }, [])
 
    function funSetValue(inValue) {
       setValue((prevValue) => {
@@ -35,18 +37,16 @@ function App() {
          ...prevState,
          {
             text: value,
+            checked: false,
          },
       ])
       setValue('')
+      localStorage.setItem('todos', JSON.stringify(todos))
    }
 
    return (
       <div className={classes.root}>
-         <TodoList
-            todos={todos}
-            deleteFunc={deleteFun}
-            editFunc={() => setShowModal(true)}
-         />
+         <TodoList todos={todos} deleteFunc={deleteFun} />
          <div className={classes.container}>
             <div className={classes.input}>
                <TextField
