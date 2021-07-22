@@ -3,10 +3,10 @@ import classes from './TodoList.module.css'
 import React, { useState } from 'react'
 import Modal from '../Modal/Modal'
 
-const TodoList = ({ todos, deleteFunc }) => {
+const TodoList = ({ todos, deleteFunc, editFunc }) => {
    const [modal, setModal] = useState(false)
-   const [modalValue, setModalValue] = useState('')
    const [index, setIndex] = useState(0)
+   const [modalInp, setModalInp] = useState('')
 
    const showModal = () => {
       setModal(true)
@@ -15,9 +15,12 @@ const TodoList = ({ todos, deleteFunc }) => {
    return (
       <div className={classes.root}>
          <Modal
+            inpChange={(event) => setModalInp(event.target.value)}
+            inpValue={modalInp}
             todos={todos}
             index={index}
             open={modal}
+            editFunc={(value) => editFunc(index, value)}
             handleClose={() => setModal(false)}
          />
 
@@ -25,7 +28,9 @@ const TodoList = ({ todos, deleteFunc }) => {
             <TodoItem
                editElem={() => {
                   showModal()
+                  setModalInp(elem.text)
                   setIndex(index)
+                  editFunc(index)
                }}
                key={elem + index}
                text={elem.text}

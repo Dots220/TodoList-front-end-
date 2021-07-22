@@ -3,9 +3,15 @@ import { useState } from 'react'
 import * as React from 'react'
 import classes from './Modal.module.css'
 
-const ModalWindow = ({ index, open, handleClose, todos }) => {
-   const [inpValue, setInpValue] = useState('')
-
+const ModalWindow = ({
+   index,
+   open,
+   handleClose,
+   todos,
+   editFunc,
+   inpChange,
+   inpValue,
+}) => {
    return (
       <Modal open={open} className={classes.root}>
          <div className={classes.container}>
@@ -15,13 +21,13 @@ const ModalWindow = ({ index, open, handleClose, todos }) => {
                label={'New input value'}
                color={'secondary'}
                value={inpValue}
-               onChange={(event) => setInpValue(event.target.value)}
+               onChange={inpChange}
             />
             <Button
                variant={'contained'}
                onClick={() => {
-                  todos[index].text = inpValue
-                  setInpValue('')
+                  editFunc(inpValue)
+                  // todos[index].text={inpValue}
                   handleClose()
                }}
             >
