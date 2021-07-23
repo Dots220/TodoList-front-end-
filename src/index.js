@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App/App'
 import reportWebVitals from './reportWebVitals'
-import TodoList from './containers/TodoList/TodoList'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

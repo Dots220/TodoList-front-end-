@@ -3,17 +3,21 @@ import TodoList from '../containers/TodoList/TodoList'
 import { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import AddBoxIcon from '@material-ui/icons/AddBox'
-import { Button, Modal } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import LocalStorageService from '../service/LocalStorage.service'
 
 function App() {
-   const [todos, setTodos] = useState([])
+   const [todos, setTodos] = useState(LocalStorageService.getTodos())
    const [value, setValue] = useState('')
 
-   function funSetValue(inValue) {
-      setValue((prevValue) => {
-         return (prevValue = inValue)
-      })
+   useEffect(() => LocalStorageService.setTodos(todos), [todos])
+
+   const checkedFun = (index, value) => {
+      setTodos((prevState) =>
+         prevState.map((elem, todoId) =>
+            todoId === index ? { ...elem, checked: value } : elem
+         )
+      )
    }
 
    const deleteFun = (index) => {
@@ -23,10 +27,9 @@ function App() {
    }
 
    const editFun = (index, value) => {
-      console.log(index, value)
       setTodos((prevState) =>
          prevState.map((elem, todoId) =>
-            todoId === index ? { ...elem, value } : elem
+            todoId === index ? { ...elem, text: value } : elem
          )
       )
    }
@@ -40,12 +43,16 @@ function App() {
          },
       ])
       setValue('')
-      localStorage.setItem('todos', JSON.stringify(todos))
    }
 
    return (
       <div className={classes.root}>
-         <TodoList todos={todos} deleteFunc={deleteFun} editFunc={editFun} />
+         <TodoList
+            todos={todos}
+            deleteFunc={deleteFun}
+            editFunc={editFun}
+            checkedFunc={checkedFun}
+         />
          <div className={classes.container}>
             <div className={classes.input}>
                <TextField

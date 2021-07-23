@@ -3,11 +3,17 @@ import classes from './TodoList.module.css'
 import React, { useState } from 'react'
 import Modal from '../Modal/Modal'
 
-const TodoList = ({ todos, deleteFunc, editFunc }) => {
+const TodoList = ({ todos, deleteFunc, editFunc, checkedFunc }) => {
    const [modal, setModal] = useState(false)
    const [index, setIndex] = useState(0)
    const [modalInp, setModalInp] = useState('')
+   const [checked, setChecked] = useState(false)
 
+   const changeChecked = () => {
+      setChecked((prevState) => {
+         return !prevState
+      })
+   }
    const showModal = () => {
       setModal(true)
    }
@@ -30,12 +36,15 @@ const TodoList = ({ todos, deleteFunc, editFunc }) => {
                   showModal()
                   setModalInp(elem.text)
                   setIndex(index)
-                  editFunc(index)
                }}
                key={elem + index}
+               checked={elem.checked}
                text={elem.text}
                deleteFunction={() => deleteFunc(index)}
-               checkedFunction={() => (todos[index].checked = true)}
+               checkedFunction={() => {
+                  changeChecked()
+                  checkedFunc(index, checked)
+               }}
             />
          ))}
       </div>

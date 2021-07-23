@@ -1,7 +1,12 @@
 class LocalStorageService {
-   static getTodos() {}
+   static getTodos() {
+      return JSON.parse(localStorage.getItem('todos')) || []
+   }
 
-   static;
+   static setTodos(todos) {
+      let todosLocal = JSON.stringify(todos)
+      localStorage.setItem('todos', todosLocal)
+   }
 }
 
 export default LocalStorageService

@@ -1,17 +1,8 @@
 import { Button, Modal, TextField } from '@material-ui/core'
-import { useState } from 'react'
 import * as React from 'react'
 import classes from './Modal.module.css'
 
-const ModalWindow = ({
-   index,
-   open,
-   handleClose,
-   todos,
-   editFunc,
-   inpChange,
-   inpValue,
-}) => {
+const ModalWindow = ({ open, handleClose, editFunc, inpChange, inpValue }) => {
    return (
       <Modal open={open} className={classes.root}>
          <div className={classes.container}>
@@ -27,7 +18,6 @@ const ModalWindow = ({
                variant={'contained'}
                onClick={() => {
                   editFunc(inpValue)
-                  // todos[index].text={inpValue}
                   handleClose()
                }}
             >
