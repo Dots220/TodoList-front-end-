@@ -1,12 +1,23 @@
 import DeleteIcon from '@material-ui/icons/Delete'
 import CreateIcon from '@material-ui/icons/Create'
 import classes from './TodoItem.module.css'
-import { Button } from '@material-ui/core'
+import { Button, Checkbox } from '@material-ui/core'
 
-const TodoItem = ({ text, deleteFunction, editElem }) => {
+const TodoItem = ({
+   text,
+   deleteFunction,
+   editElem,
+   checkedFunction,
+   checked,
+}) => {
    return (
       <div className={classes.root}>
-         <input className={classes.checkBox} type="checkbox" />
+         <Checkbox
+            className={classes.checkBox}
+            color="primary"
+            onChange={checkedFunction}
+            checked={checked}
+         />
 
          <div className={classes.text}>{text}</div>
 
