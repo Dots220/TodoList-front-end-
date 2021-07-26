@@ -7,8 +7,12 @@ import { Button } from '@material-ui/core'
 import LocalStorageService from '../service/LocalStorage.service'
 import React from 'react'
 import { Todo } from '../core/types/todo.type'
+import { useAppDispatch } from '../redux/hooks/hooks'
+import { addTodo } from '../redux/features/todo/todoSlice'
 
 function App() {
+   const dispatch = useAppDispatch()
+
    const [todos, setTodos] = useState<Todo[]>(LocalStorageService.getTodos())
    const [value, setValue] = useState<string>('')
 
@@ -41,13 +45,7 @@ function App() {
    }
 
    const addToDo = () => {
-      setTodos((prevState) => [
-         ...prevState,
-         {
-            text: value,
-            checked: false,
-         },
-      ])
+      dispatch(addTodo(value))
       setValue('')
    }
 

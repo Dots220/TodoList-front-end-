@@ -3,6 +3,8 @@ import classes from './TodoList.module.css'
 import React, { useState } from 'react'
 import Modal from '../Modal/Modal'
 import { Todo } from '../../core/types/todo.type'
+import { selectTodo } from '../../redux/features/todo/todoSlice'
+import { useAppSelector } from '../../redux/hooks/hooks'
 
 interface TodoListProps {
    todos: Todo[]
@@ -12,11 +14,13 @@ interface TodoListProps {
 }
 
 const TodoList: React.FC<TodoListProps> = ({
-   todos,
+   // todos,
    deleteFunc,
    editFunc,
    checkedFunc,
 }) => {
+   const todos = useAppSelector(selectTodo)
+
    const [modal, setModal] = useState(false)
    const [index, setIndex] = useState(0)
    const [modalInp, setModalInp] = useState('')

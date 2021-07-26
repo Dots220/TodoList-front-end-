@@ -3,6 +3,7 @@ import CreateIcon from '@material-ui/icons/Create'
 import classes from './TodoItem.module.css'
 import { Button, Checkbox } from '@material-ui/core'
 import React from 'react'
+import { useAppDispatch } from '../../redux/hooks/hooks'
 
 interface TodoItemProps {
    text: string
@@ -19,6 +20,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
    checkedFunction,
    checked,
 }) => {
+   const dispatch = useAppDispatch()
+
    return (
       <div className={classes.root}>
          <Checkbox
