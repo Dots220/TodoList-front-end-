@@ -15,10 +15,13 @@ function App() {
    useEffect(() => LocalStorageService.setTodos(todos), [todos])
 
    const checkedFun = (index: number) => {
-      setTodos((prevState: Todo) =>
-         prevState.map((elem, todoId) => {
-            if (todoId === index && prevState[index].checked) {
+      setTodos((prevState: Todo[]) =>
+         prevState.map((elem: Todo, todoId: number) => {
+            if (todoId === index) {
+               return { ...elem, checked: !elem.checked }
             }
+
+            return elem
          })
       )
    }
