@@ -2,18 +2,25 @@ import TodoItem from '../../components/TodoItem/TodoItem'
 import classes from './TodoList.module.css'
 import React, { useState } from 'react'
 import Modal from '../Modal/Modal'
+import { Todo } from '../../core/types/todo.type'
 
-const TodoList = ({ todos, deleteFunc, editFunc, checkedFunc }) => {
+interface TodoListProps {
+   todos: Todo[]
+   deleteFunc: (index: number) => void
+   editFunc: (index: number, value: string) => void
+   checkedFunc: (index: number) => void
+}
+
+const TodoList: React.FC<TodoListProps> = ({
+   todos,
+   deleteFunc,
+   editFunc,
+   checkedFunc,
+}) => {
    const [modal, setModal] = useState(false)
    const [index, setIndex] = useState(0)
    const [modalInp, setModalInp] = useState('')
-   const [checked, setChecked] = useState(false)
 
-   const changeChecked = () => {
-      setChecked((prevState) => {
-         return !prevState
-      })
-   }
    const showModal = () => {
       setModal(true)
    }
@@ -21,10 +28,8 @@ const TodoList = ({ todos, deleteFunc, editFunc, checkedFunc }) => {
    return (
       <div className={classes.root}>
          <Modal
-            inpChange={(event) => setModalInp(event.target.value)}
+            inpChange={(event: any) => setModalInp(event.target.value)}
             inpValue={modalInp}
-            todos={todos}
-            index={index}
             open={modal}
             editFunc={(value) => editFunc(index, value)}
             handleClose={() => setModal(false)}
@@ -37,13 +42,12 @@ const TodoList = ({ todos, deleteFunc, editFunc, checkedFunc }) => {
                   setModalInp(elem.text)
                   setIndex(index)
                }}
-               key={elem + index}
+               key={elem.text + index}
                checked={elem.checked}
                text={elem.text}
                deleteFunction={() => deleteFunc(index)}
                checkedFunction={() => {
-                  changeChecked()
-                  checkedFunc(index, checked)
+                  checkedFunc(index)
                }}
             />
          ))}

@@ -2,7 +2,20 @@ import { Button, Modal, TextField } from '@material-ui/core'
 import * as React from 'react'
 import classes from './Modal.module.css'
 
-const ModalWindow = ({ open, handleClose, editFunc, inpChange, inpValue }) => {
+interface ModalWindowPar {
+   open: boolean
+   handleClose: any
+   editFunc: (inpValue: string) => void
+   inpChange: (event: any) => void
+   inpValue: string
+}
+const ModalWindow: React.FC<ModalWindowPar> = ({
+   open,
+   handleClose,
+   editFunc,
+   inpChange,
+   inpValue,
+}) => {
    return (
       <Modal open={open} className={classes.root}>
          <div className={classes.container}>

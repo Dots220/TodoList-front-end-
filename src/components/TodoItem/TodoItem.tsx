@@ -2,8 +2,17 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import CreateIcon from '@material-ui/icons/Create'
 import classes from './TodoItem.module.css'
 import { Button, Checkbox } from '@material-ui/core'
+import React from 'react'
 
-const TodoItem = ({
+interface TodoItemProps {
+   text: string
+   deleteFunction: () => void
+   editElem: () => void
+   checkedFunction: () => void
+   checked: boolean
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({
    text,
    deleteFunction,
    editElem,
@@ -15,7 +24,9 @@ const TodoItem = ({
          <Checkbox
             className={classes.checkBox}
             color="primary"
-            onChange={checkedFunction}
+            onClick={() => {
+               checkedFunction()
+            }}
             checked={checked}
          />
 
