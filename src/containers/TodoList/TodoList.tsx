@@ -20,13 +20,7 @@ const TodoList: React.FC<TodoListProps> = ({
    const [modal, setModal] = useState(false)
    const [index, setIndex] = useState(0)
    const [modalInp, setModalInp] = useState('')
-   const [checked, setChecked] = useState(false)
 
-   const changeChecked = () => {
-      setChecked((prevState) => {
-         return !prevState
-      })
-   }
    const showModal = () => {
       setModal(true)
    }
@@ -53,7 +47,6 @@ const TodoList: React.FC<TodoListProps> = ({
                text={elem.text}
                deleteFunction={() => deleteFunc(index)}
                checkedFunction={() => {
-                  changeChecked()
                   checkedFunc(index)
                }}
             />
