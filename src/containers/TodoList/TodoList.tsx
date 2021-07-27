@@ -2,22 +2,15 @@ import TodoItem from '../../components/TodoItem/TodoItem'
 import classes from './TodoList.module.css'
 import React, { useState } from 'react'
 import Modal from '../Modal/Modal'
-import { Todo } from '../../core/types/todo.type'
 import { selectTodo } from '../../redux/features/todo/todoSlice'
 import { useAppSelector } from '../../redux/hooks/hooks'
 
 interface TodoListProps {
-   todos: Todo[]
-   deleteFunc: (index: number) => void
-   editFunc: (index: number, value: string) => void
-   checkedFunc: (index: number) => void
+
 }
 
 const TodoList: React.FC<TodoListProps> = ({
-   // todos,
-   deleteFunc,
-   editFunc,
-   checkedFunc,
+
 }) => {
    const todos = useAppSelector(selectTodo)
 
@@ -35,11 +28,11 @@ const TodoList: React.FC<TodoListProps> = ({
             inpChange={(event: any) => setModalInp(event.target.value)}
             inpValue={modalInp}
             open={modal}
-            editFunc={(value) => editFunc(index, value)}
+            index = {index}
             handleClose={() => setModal(false)}
          />
 
-         {todos?.map((elem, index) => (
+         {todos.map((elem, index) => (
             <TodoItem
                editElem={() => {
                   showModal()
@@ -49,10 +42,7 @@ const TodoList: React.FC<TodoListProps> = ({
                key={elem.text + index}
                checked={elem.checked}
                text={elem.text}
-               deleteFunction={() => deleteFunc(index)}
-               checkedFunction={() => {
-                  checkedFunc(index)
-               }}
+               index = {index}
             />
          ))}
       </div>
