@@ -1,21 +1,25 @@
 import { Button, Modal, TextField } from '@material-ui/core'
 import * as React from 'react'
 import classes from './Modal.module.css'
+import { useAppDispatch } from '../../redux/hooks/hooks'
+import { editTodo } from '../../redux/features/todo/todoSlice'
 
 interface ModalWindowPar {
    open: boolean
    handleClose: any
-   editFunc: (inpValue: string) => void
    inpChange: (event: any) => void
    inpValue: string
+   index: number
 }
 const ModalWindow: React.FC<ModalWindowPar> = ({
    open,
    handleClose,
-   editFunc,
    inpChange,
    inpValue,
+   index
 }) => {
+   const dispatch = useAppDispatch()
+
    return (
       <Modal open={open} className={classes.root}>
          <div className={classes.container}>
@@ -30,7 +34,7 @@ const ModalWindow: React.FC<ModalWindowPar> = ({
             <Button
                variant={'contained'}
                onClick={() => {
-                  editFunc(inpValue)
+                  dispatch(editTodo({index,inpValue}))
                   handleClose()
                }}
             >
