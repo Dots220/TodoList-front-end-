@@ -5,6 +5,8 @@ export const store = configureStore({
    reducer: {
       todos: todoReducer,
    },
+
+   devTools: true,
 })
 
 export type RootState = ReturnType<typeof store.getState>

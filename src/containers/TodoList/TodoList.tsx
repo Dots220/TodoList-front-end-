@@ -5,13 +5,9 @@ import Modal from '../Modal/Modal'
 import { selectTodo } from '../../redux/features/todo/todoSlice'
 import { useAppSelector } from '../../redux/hooks/hooks'
 
-interface TodoListProps {
+interface TodoListProps {}
 
-}
-
-const TodoList: React.FC<TodoListProps> = ({
-
-}) => {
+const TodoList: React.FC<TodoListProps> = () => {
    const todos = useAppSelector(selectTodo)
 
    const [modal, setModal] = useState(false)
@@ -28,7 +24,7 @@ const TodoList: React.FC<TodoListProps> = ({
             inpChange={(event: any) => setModalInp(event.target.value)}
             inpValue={modalInp}
             open={modal}
-            index = {index}
+            index={index}
             handleClose={() => setModal(false)}
          />
 
@@ -42,7 +38,7 @@ const TodoList: React.FC<TodoListProps> = ({
                key={elem.text + index}
                checked={elem.checked}
                text={elem.text}
-               index = {index}
+               index={index}
             />
          ))}
       </div>
