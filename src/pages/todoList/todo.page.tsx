@@ -1,28 +1,21 @@
-import classes from './App.module.css'
-import TodoList from '../containers/TodoList/TodoList'
+import classes from './todo.module.css'
+import TodoList from '../../containers/TodoList/TodoList'
 import { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import { Button } from '@material-ui/core'
 import React from 'react'
-import { useAppDispatch } from '../redux/hooks/hooks'
-import { addTodo } from '../redux/features/todo/todoSlice'
+import { useAppDispatch } from '../../redux/hooks/hooks'
+import { addTodo } from '../../redux/features/todo/todoSlice'
 
-function App() {
+function TodoPage() {
    const dispatch = useAppDispatch()
-
 
    const [value, setValue] = useState<string>('')
 
-
-
-
-
-
    return (
       <div className={classes.root}>
-         <TodoList
-         />
+         <TodoList />
          <div className={classes.container}>
             <div className={classes.input}>
                <TextField
@@ -49,4 +42,4 @@ function App() {
    )
 }
 
-export default App
+export default TodoPage
