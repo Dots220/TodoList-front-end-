@@ -1,56 +1,40 @@
 import React, { useState } from 'react'
+import { Button, TextField, Typography } from '@material-ui/core'
+import classes from './auth.module.css'
+import { fetchRegisterUser } from '../../redux/features/auth/auth'
+import { useAppDispatch } from '../../redux/hooks/hooks'
+import { User } from '../../core/types/todo.type'
 
 export const AuthPage = () => {
+   const [password, setPassword] = useState<string>('')
+   const [email, setEmail] = useState<string>('')
+   const dispatch = useAppDispatch()
+
+   const Registration = (user: User) => {
+      dispatch(fetchRegisterUser(User))
+   }
+
    return (
-      <div className="row">
-         <div className="col s6 offset-s3">
-            <h1>Сократи ссылку </h1>
-            <div className="card blue darken-1">
-               <div className="card-content white-text">
-                  <span className="card-title">Авторизация</span>
-                  <div>
-                     <div className="input-field">
-                        <input
-                           placeholder="Введите email"
-                           id="email"
-                           type="text"
-                           name="email"
-                           className="yellow-input"
-                           // onChange={}
-                        />
+      <div className={classes.root}>
+         <div className={classes.card}>
+            <Typography variant={'h5'}>Авторизация</Typography>
 
-                        <label htmlFor="first_name">Email</label>
-                     </div>
+            <TextField
+               variant={'outlined'}
+               label="Email"
+               onChange={(event) => setEmail(event.target.value)}
+            />
+            <TextField
+               variant={'outlined'}
+               label="Пароль"
+               onChange={(event) => setPassword(event.target.value)}
+            />
 
-                     <div className="input-field">
-                        <input
-                           placeholder="Введите пароль"
-                           id="password"
-                           type="text"
-                           name="password"
-                           className="yellow-input"
-                        />
-
-                        <label htmlFor="first_name">Пароль</label>
-                     </div>
-                  </div>
-               </div>
-               <div className="card-action">
-                  <button
-                     className="btn yellow darken-4"
-                     style={{ marginRight: 10 }}
-                     // disabled={}
-                  >
-                     Войти
-                  </button>
-                  <button
-                     className="btn yellow lighten-1 black-text"
-                     // onClick={}
-                     // disabled={}
-                  >
-                     Регистрация
-                  </button>
-               </div>
+            <div className={classes.buttonContainer}>
+               <Button variant="contained" onClick={}>
+                  Регистрация
+               </Button>
+               <Button variant="contained">Войти</Button>
             </div>
          </div>
       </div>

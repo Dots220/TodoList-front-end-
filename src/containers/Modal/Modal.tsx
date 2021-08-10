@@ -3,6 +3,7 @@ import * as React from 'react'
 import classes from './Modal.module.css'
 import { useAppDispatch } from '../../redux/hooks/hooks'
 import { editTodo } from '../../redux/features/todo/todoSlice'
+import apiService from '../../service/ApiService'
 
 interface ModalWindowPar {
    open: boolean
@@ -16,7 +17,7 @@ const ModalWindow: React.FC<ModalWindowPar> = ({
    handleClose,
    inpChange,
    inpValue,
-   index
+   index,
 }) => {
    const dispatch = useAppDispatch()
 
@@ -34,7 +35,7 @@ const ModalWindow: React.FC<ModalWindowPar> = ({
             <Button
                variant={'contained'}
                onClick={() => {
-                  dispatch(editTodo({index,inpValue}))
+                  dispatch(editTodo({ index, inpValue }))
                   handleClose()
                }}
             >

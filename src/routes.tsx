@@ -3,12 +3,12 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import TodoPage from '../src/pages/todoList/todo.page'
 import AuthPage from '../src/pages/auth/auth.page'
 
-export interface iRoutes {
+export interface IRoutes {
    isAuth: boolean
 }
 
-export const useRoutes = ({ isAuth }: iRoutes) => {
-   if (isAuth) {
+export const useRoutes: React.FC<IRoutes> = (props) => {
+   if (props.isAuth) {
       return (
          <Switch>
             <Route path="/todo" exact>
@@ -22,12 +22,13 @@ export const useRoutes = ({ isAuth }: iRoutes) => {
             <Redirect to="/todo" />
          </Switch>
       )
-      return (
-         <Switch>
-            <Route path="/auth" exact>
-               <AuthPage />
-            </Route>
-         </Switch>
-      )
    }
+
+   return (
+      <Switch>
+         <Route path="/auth" exact>
+            <AuthPage />
+         </Route>
+      </Switch>
+   )
 }

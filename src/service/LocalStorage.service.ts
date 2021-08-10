@@ -18,6 +18,20 @@ class LocalStorageService {
       let todosLocal = JSON.stringify(todos)
       localStorage.setItem('todos', todosLocal)
    }
+
+   static setToken(token: string) {
+      let tokenLocal = JSON.stringify(token)
+      localStorage.setItem('token', tokenLocal)
+   }
+
+   static getToken(): string {
+      const token = localStorage.getItem('token')
+
+      if (token) {
+         return JSON.parse(token)
+      }
+      return ''
+   }
 }
 
 export default LocalStorageService

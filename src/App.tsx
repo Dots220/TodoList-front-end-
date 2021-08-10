@@ -3,7 +3,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { useRoutes } from './routes'
 
 function App() {
-   const router = useRoutes()
+   const bool = true
+   const router = useRoutes({ isAuth: true })
    return <BrowserRouter>{router}</BrowserRouter>
 }
 
