@@ -32,6 +32,20 @@ class LocalStorageService {
       }
       return ''
    }
+
+   static setAuthStatus(status: boolean) {
+      let statusLocal = JSON.stringify(status)
+      localStorage.setItem('authStatus', statusLocal)
+   }
+
+   static getAuthStatus(): boolean {
+      const authStatus = localStorage.getItem('authStatus')
+
+      if (authStatus) {
+         return JSON.parse(authStatus)
+      }
+      return false
+   }
 }
 
 export default LocalStorageService

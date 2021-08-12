@@ -1,4 +1,4 @@
-import TodoItem from '../../components/TodoItem/TodoItem'
+import TodoItem from '../TodoItem/TodoItem'
 import classes from './TodoList.module.css'
 import React, { useState } from 'react'
 import Modal from '../Modal/Modal'

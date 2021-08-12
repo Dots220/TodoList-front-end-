@@ -1,12 +1,13 @@
 import classes from './todo.module.css'
-import TodoList from '../../containers/TodoList/TodoList'
-import { useState } from 'react'
+import TodoList from '../../components/TodoList/TodoList'
+import { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import { Button } from '@material-ui/core'
 import React from 'react'
 import { useAppDispatch } from '../../redux/hooks/hooks'
 import { addTodo } from '../../redux/features/todo/todoSlice'
+import { fetchRegisterUser } from '../../redux/features/auth/auth.slice'
 
 function TodoPage() {
    const dispatch = useAppDispatch()

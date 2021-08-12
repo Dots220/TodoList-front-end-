@@ -1,10 +1,13 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { useRoutes } from './routes'
+import { useAppSelector } from './redux/hooks/hooks'
+import { selectAuthStatus } from './redux/features/auth/auth.slice'
 
 function App() {
-   const bool = true
-   const router = useRoutes({ isAuth: true })
+   const isAuth = useAppSelector(selectAuthStatus)
+
+   const router = useRoutes({ isAuth })
    return <BrowserRouter>{router}</BrowserRouter>
 }
 

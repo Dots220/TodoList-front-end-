@@ -15,10 +15,6 @@ export const useRoutes: React.FC<IRoutes> = (props) => {
                <TodoPage />
             </Route>
 
-            <Route path="/" exact>
-               <AuthPage />
-            </Route>
-
             <Redirect to="/todo" />
          </Switch>
       )
@@ -26,9 +22,11 @@ export const useRoutes: React.FC<IRoutes> = (props) => {
 
    return (
       <Switch>
-         <Route path="/auth" exact>
+         <Route path="/" exact>
             <AuthPage />
          </Route>
+
+         <Redirect to="/" />
       </Switch>
    )
 }
