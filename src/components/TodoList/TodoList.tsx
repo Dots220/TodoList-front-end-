@@ -38,7 +38,7 @@ const TodoList: React.FC<TodoListProps> = () => {
                key={elem.text + index}
                checked={elem.checked}
                text={elem.text}
-               index={index}
+               index={elem.id}
             />
          ))}
       </div>

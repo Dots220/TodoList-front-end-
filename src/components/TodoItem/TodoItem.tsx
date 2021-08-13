@@ -4,7 +4,10 @@ import classes from './TodoItem.module.css'
 import { Button, Checkbox } from '@material-ui/core'
 import React from 'react'
 import { useAppDispatch } from '../../redux/hooks/hooks'
-import {deleteTodo, checkedTodo } from '../../redux/features/todo/todoSlice'
+import {
+   checkedTodo,
+   fetchDeleteTodo,
+} from '../../redux/features/todo/todoSlice'
 
 interface TodoItemProps {
    text: string
@@ -17,7 +20,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
    text,
    editElem,
    checked,
-   index
+   index,
 }) => {
    const dispatch = useAppDispatch()
 
@@ -27,7 +30,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             className={classes.checkBox}
             color="primary"
             onClick={() => {
-               dispatch(checkedTodo({index}))
+               dispatch(checkedTodo({ index }))
             }}
             checked={checked}
          />
@@ -39,11 +42,12 @@ const TodoItem: React.FC<TodoItemProps> = ({
                <CreateIcon />
             </Button>
 
-            <Button className={classes.delete} onClick={() => {
-
-               dispatch(deleteTodo({index}))
-
-            }}>
+            <Button
+               className={classes.delete}
+               onClick={() => {
+                  dispatch(fetchDeleteTodo(index))
+               }}
+            >
                <DeleteIcon fontSize={'medium'} />
             </Button>
          </div>

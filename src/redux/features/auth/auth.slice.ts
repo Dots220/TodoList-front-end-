@@ -7,9 +7,13 @@ import { RootState } from '../../store'
 
 export const fetchRegisterUser = createAsyncThunk(
    'users/fetchRegisterUser',
-   async (user: User, thunkAPI) => {
-      const response = await ApiServices.registration(user)
-      return response
+   async (user: User, { rejectWithValue }) => {
+      try {
+         const response = await ApiServices.registration(user)
+         return response
+      } catch (err) {
+         rejectWithValue(err)
+      }
    }
 )
 
@@ -34,6 +38,16 @@ const authSlice = createSlice({
    extraReducers: (builder) => {
       builder.addCase(
          fetchRegisterUser.fulfilled,
+         (state: IAuthStore, action: any) => {
+            LocalStorageService.setToken(action.payload.token)
+            state.token = action.payload.token
+            state.authStatus = true
+            LocalStorageService.setAuthStatus(true)
+         }
+      )
+
+      builder.addCase(
+         fetchRegisterUser.rejected,
          (state: IAuthStore, action: any) => {
             LocalStorageService.setToken(action.payload.token)
             state.token = action.payload.token

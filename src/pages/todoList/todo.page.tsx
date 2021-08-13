@@ -6,7 +6,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox'
 import { Button } from '@material-ui/core'
 import React from 'react'
 import { useAppDispatch } from '../../redux/hooks/hooks'
-import { addTodo } from '../../redux/features/todo/todoSlice'
+import { fetchAddTodo } from '../../redux/features/todo/todoSlice'
 import { fetchRegisterUser } from '../../redux/features/auth/auth.slice'
 
 function TodoPage() {
@@ -28,7 +28,7 @@ function TodoPage() {
                />
                <Button
                   onClick={() => {
-                     dispatch(addTodo(value))
+                     dispatch(fetchAddTodo({ text: value, checked: false }))
                      setValue('')
                   }}
                   variant={'contained'}
