@@ -1,9 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { User } from '../../../core/types/todo.type'
 import ApiServices from '../../../service/ApiService'
 import { IAuthStore } from './auth.type'
 import LocalStorageService from '../../../service/LocalStorage.service'
 import { RootState } from '../../store'
+import { logout } from '../todo/todoSlice'
 
 export const fetchRegisterUser = createAsyncThunk(
    'users/fetchRegisterUser',
@@ -34,7 +35,14 @@ const initialState: IAuthStore = {
 const authSlice = createSlice({
    name: 'auth',
    initialState,
-   reducers: {},
+   reducers: {
+      // logout(state: IAuthStore, action) {
+      //    state.authStatus = false
+      //    state.token = ''
+      //    LocalStorageService.setToken(state.token)
+      //    LocalStorageService.setAuthStatus(state.authStatus)
+      // },
+   },
    extraReducers: (builder) => {
       builder.addCase(
          fetchRegisterUser.fulfilled,
@@ -56,17 +64,21 @@ const authSlice = createSlice({
          }
       )
 
-      builder.addCase(fetchRegisterUser.pending, (state, action) => {})
-
       builder.addCase(fetchLoginUser.fulfilled, (state, action: any) => {
          LocalStorageService.setToken(action.payload.token)
          state.token = action.payload.token
          state.authStatus = true
          LocalStorageService.setAuthStatus(true)
       })
+
+      builder.addCase(logout, (state, action) => {
+         state.authStatus = false
+         state.token = ''
+         LocalStorageService.setAuthStatus(state.authStatus)
+         LocalStorageService.removeToken()
+      })
    },
 })
-
 const authReducer = authSlice.reducer
 export default authReducer
 

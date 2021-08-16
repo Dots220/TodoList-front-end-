@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { User } from '../core/types/todo.type'
+import LocalStorageService from './LocalStorage.service'
 
 class ApiServices {
    _apiUrl = 'http://localhost:5000'
@@ -47,6 +47,18 @@ class ApiServices {
          .delete(`${this._apiUrl}/todo/${index}`, {
             headers: {
                token,
+            },
+         })
+         .then((res) => {
+            return res.data
+         })
+   }
+
+   public async getTodos() {
+      return axios
+         .get(`${this._apiUrl}/todo`, {
+            headers: {
+               token: LocalStorageService.getToken(),
             },
          })
          .then((res) => {

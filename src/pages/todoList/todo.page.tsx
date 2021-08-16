@@ -7,10 +7,17 @@ import { Button } from '@material-ui/core'
 import React from 'react'
 import { useAppDispatch } from '../../redux/hooks/hooks'
 import { fetchAddTodo } from '../../redux/features/todo/todoSlice'
-import { fetchRegisterUser } from '../../redux/features/auth/auth.slice'
 
 function TodoPage() {
    const dispatch = useAppDispatch()
+
+   // useEffect(() => {
+   //    dispatch(
+   //       deleteTodoRequest({ email: 'test@gmail.com', password: '123456' })
+   //    )
+   //
+   //    dispatch(ad)
+   // }, [dispatch])
 
    const [value, setValue] = useState<string>('')
 

@@ -24,6 +24,10 @@ class LocalStorageService {
       localStorage.setItem('token', tokenLocal)
    }
 
+   static removeToken() {
+      localStorage.removeItem('token')
+   }
+
    static getToken(): string {
       const token = localStorage.getItem('token')
 

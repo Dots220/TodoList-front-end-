@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { Todo, User } from '../../../core/types/todo.type'
+import { Todo } from '../../../core/types/todo.type'
 import LocalStorageService from '../../../service/LocalStorage.service'
-import { RootState } from '../../store'
+import { AppDispatch, RootState } from '../../store'
 import ApiServices from '../../../service/ApiService'
-import { IAuthStore } from '../auth/auth.type'
-import { fetchLoginUser, fetchRegisterUser } from '../auth/auth.slice'
+import { fetchLoginUser } from '../auth/auth.slice'
+import axios from 'axios'
 
 interface todoState {
    todos: Todo[]
+   // status: 'pending' | 'success' | 'error' | null
 }
 
 const initialState: todoState = {
@@ -32,10 +33,32 @@ export const fetchDeleteTodo = createAsyncThunk(
    }
 )
 
+export const getUserTodos = () => {
+   return async (dispatch: AppDispatch) => {
+      try {
+         const response = await ApiServices.getTodos()
+         if (response.error && response.error === 'Unauthorized') {
+            throw new Error(response.error)
+         } else {
+            dispatch(setTodos(response))
+         }
+      } catch (err) {
+         // dispatch(fetchLoginUser({ email, password }))
+         dispatch(logout())
+      }
+   }
+}
+
 const todoSlice = createSlice({
    name: 'todos',
    initialState,
    reducers: {
+      logout(state: todoState) {
+         LocalStorageService.removeToken()
+         localStorage.removeItem('todos')
+         state.todos = []
+         console.log('Logout')
+      },
       checkedTodo(state: todoState, action) {
          state.todos = state.todos.map((todo, index) => {
             if (index === action.payload.index) {
@@ -54,11 +77,24 @@ const todoSlice = createSlice({
          })
          LocalStorageService.setTodos(state.todos)
       },
+      setTodos(state: todoState, action) {
+         state.todos = action.payload
+      },
    },
    extraReducers: (builder) => {
       builder.addCase(fetchAddTodo.fulfilled, (state, action: any) => {
          state.todos.push(action.payload)
          LocalStorageService.setTodos(state.todos)
+      })
+
+      // builder.addCase(logout, (state, action: any) => {
+      //    state.todos = []
+      //    LocalStorageService.setTodos(state.todos)
+      // })
+
+      builder.addCase(fetchAddTodo.rejected, (state, action: any) => {
+         console.log('Error')
+         logout()
       })
 
       builder.addCase(fetchDeleteTodo.fulfilled, (state, action: any) => {
@@ -69,7 +105,7 @@ const todoSlice = createSlice({
    },
 })
 
-export const { checkedTodo, editTodo } = todoSlice.actions
+export const { checkedTodo, editTodo, logout, setTodos } = todoSlice.actions
 
 export const selectTodo = (state: RootState) => state.todos.todos
 

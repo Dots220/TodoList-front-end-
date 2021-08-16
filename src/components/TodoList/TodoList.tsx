@@ -1,14 +1,24 @@
 import TodoItem from '../TodoItem/TodoItem'
 import classes from './TodoList.module.css'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from '../Modal/Modal'
-import { selectTodo } from '../../redux/features/todo/todoSlice'
+import { getUserTodos, selectTodo } from '../../redux/features/todo/todoSlice'
 import { useAppSelector } from '../../redux/hooks/hooks'
+import { useDispatch } from 'react-redux'
 
 interface TodoListProps {}
 
 const TodoList: React.FC<TodoListProps> = () => {
    const todos = useAppSelector(selectTodo)
+   const dispatch = useDispatch()
+
+   const getTodos = () => {
+      dispatch(getUserTodos())
+   }
+
+   useEffect(() => {
+      getTodos()
+   }, [])
 
    const [modal, setModal] = useState(false)
    const [index, setIndex] = useState(0)
