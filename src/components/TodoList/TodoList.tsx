@@ -10,6 +10,8 @@ interface TodoListProps {}
 
 const TodoList: React.FC<TodoListProps> = () => {
    const todos = useAppSelector(selectTodo)
+   const completedTodos = todos.filter((todo) => todo.checked == true)
+   const uncompletedTodos = todos.filter((todo) => todo.checked == false)
    const dispatch = useDispatch()
 
    const getTodos = () => {
@@ -23,6 +25,7 @@ const TodoList: React.FC<TodoListProps> = () => {
    const [modal, setModal] = useState(false)
    const [index, setIndex] = useState(0)
    const [modalInp, setModalInp] = useState('')
+   const [checked, setChecked] = useState(false)
 
    const showModal = () => {
       setModal(true)
@@ -35,6 +38,7 @@ const TodoList: React.FC<TodoListProps> = () => {
             inpValue={modalInp}
             open={modal}
             index={index}
+            checked={checked}
             handleClose={() => setModal(false)}
          />
 
@@ -43,7 +47,8 @@ const TodoList: React.FC<TodoListProps> = () => {
                editElem={() => {
                   showModal()
                   setModalInp(elem.text)
-                  setIndex(index)
+                  setIndex(elem.id)
+                  setChecked(elem.checked)
                }}
                key={elem.text + index}
                checked={elem.checked}

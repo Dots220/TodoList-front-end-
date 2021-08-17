@@ -54,6 +54,23 @@ class ApiServices {
          })
    }
 
+   public async EditTodo(
+      token: string,
+      index: number,
+      body: { text: string; checked: boolean }
+   ): Promise<any> {
+      console.log(body)
+      return axios
+         .put(`${this._apiUrl}/todo/${index}`, body, {
+            headers: {
+               token,
+            },
+         })
+         .then((res) => {
+            return res.data
+         })
+   }
+
    public async getTodos() {
       return axios
          .get(`${this._apiUrl}/todo`, {

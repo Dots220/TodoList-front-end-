@@ -4,7 +4,7 @@ import ApiServices from '../../../service/ApiService'
 import { IAuthStore } from './auth.type'
 import LocalStorageService from '../../../service/LocalStorage.service'
 import { RootState } from '../../store'
-import { logout } from '../todo/todoSlice'
+import { fetchAddTodo, fetchDeleteTodo } from '../todo/todoSlice'
 
 export const fetchRegisterUser = createAsyncThunk(
    'users/fetchRegisterUser',
@@ -32,6 +32,13 @@ const initialState: IAuthStore = {
    token: LocalStorageService.getToken() || null,
 }
 
+export const logout = (state: IAuthStore) => {
+   state.authStatus = false
+   state.token = ''
+   LocalStorageService.setToken(state.token)
+   LocalStorageService.setAuthStatus(state.authStatus)
+}
+
 const authSlice = createSlice({
    name: 'auth',
    initialState,
@@ -43,6 +50,7 @@ const authSlice = createSlice({
       //    LocalStorageService.setAuthStatus(state.authStatus)
       // },
    },
+
    extraReducers: (builder) => {
       builder.addCase(
          fetchRegisterUser.fulfilled,
@@ -71,11 +79,13 @@ const authSlice = createSlice({
          LocalStorageService.setAuthStatus(true)
       })
 
-      builder.addCase(logout, (state, action) => {
-         state.authStatus = false
-         state.token = ''
-         LocalStorageService.setAuthStatus(state.authStatus)
-         LocalStorageService.removeToken()
+      builder.addCase(fetchAddTodo.rejected, (state, action: any) => {
+         logout(state)
+         console.log('reject from authslice')
+      })
+
+      builder.addCase(fetchDeleteTodo.rejected, (state, action: any) => {
+         logout(state)
       })
    },
 })

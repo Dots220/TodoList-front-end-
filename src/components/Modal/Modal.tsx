@@ -2,7 +2,7 @@ import { Button, Modal, TextField } from '@material-ui/core'
 import * as React from 'react'
 import classes from './Modal.module.css'
 import { useAppDispatch } from '../../redux/hooks/hooks'
-import { editTodo } from '../../redux/features/todo/todoSlice'
+import { fetchEditTodo } from '../../redux/features/todo/todoSlice'
 import apiService from '../../service/ApiService'
 
 interface ModalWindowPar {
@@ -10,6 +10,7 @@ interface ModalWindowPar {
    handleClose: any
    inpChange: (event: any) => void
    inpValue: string
+   checked: boolean
    index: number
 }
 const ModalWindow: React.FC<ModalWindowPar> = ({
@@ -17,6 +18,7 @@ const ModalWindow: React.FC<ModalWindowPar> = ({
    handleClose,
    inpChange,
    inpValue,
+   checked,
    index,
 }) => {
    const dispatch = useAppDispatch()
@@ -35,7 +37,7 @@ const ModalWindow: React.FC<ModalWindowPar> = ({
             <Button
                variant={'contained'}
                onClick={() => {
-                  dispatch(editTodo({ index, inpValue }))
+                  dispatch(fetchEditTodo({ index, text: inpValue, checked }))
                   handleClose()
                }}
             >

@@ -5,8 +5,8 @@ import { Button, Checkbox } from '@material-ui/core'
 import React from 'react'
 import { useAppDispatch } from '../../redux/hooks/hooks'
 import {
-   checkedTodo,
    fetchDeleteTodo,
+   fetchEditTodo,
 } from '../../redux/features/todo/todoSlice'
 
 interface TodoItemProps {
@@ -30,7 +30,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             className={classes.checkBox}
             color="primary"
             onClick={() => {
-               dispatch(checkedTodo({ index }))
+               dispatch(fetchEditTodo({ index, text, checked: !checked }))
             }}
             checked={checked}
          />

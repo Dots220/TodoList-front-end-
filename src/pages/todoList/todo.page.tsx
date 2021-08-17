@@ -11,14 +11,6 @@ import { fetchAddTodo } from '../../redux/features/todo/todoSlice'
 function TodoPage() {
    const dispatch = useAppDispatch()
 
-   // useEffect(() => {
-   //    dispatch(
-   //       deleteTodoRequest({ email: 'test@gmail.com', password: '123456' })
-   //    )
-   //
-   //    dispatch(ad)
-   // }, [dispatch])
-
    const [value, setValue] = useState<string>('')
 
    return (

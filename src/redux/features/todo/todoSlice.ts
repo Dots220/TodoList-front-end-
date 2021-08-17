@@ -3,8 +3,6 @@ import { Todo } from '../../../core/types/todo.type'
 import LocalStorageService from '../../../service/LocalStorage.service'
 import { AppDispatch, RootState } from '../../store'
 import ApiServices from '../../../service/ApiService'
-import { fetchLoginUser } from '../auth/auth.slice'
-import axios from 'axios'
 
 interface todoState {
    todos: Todo[]
@@ -12,7 +10,7 @@ interface todoState {
 }
 
 const initialState: todoState = {
-   todos: LocalStorageService.getTodos(),
+   todos: [],
 } as todoState
 
 export const fetchAddTodo = createAsyncThunk(
@@ -33,6 +31,20 @@ export const fetchDeleteTodo = createAsyncThunk(
    }
 )
 
+export const fetchEditTodo = createAsyncThunk(
+   'todos/fetchEdit',
+   async (
+      todoProps: { index: number; text: string; checked: boolean },
+      thunkAPI
+   ) => {
+      let todo = { text: todoProps.text, checked: todoProps.checked }
+      const token = LocalStorageService.getToken()
+
+      await ApiServices.EditTodo(token, todoProps.index, todo)
+      return todoProps
+   }
+)
+
 export const getUserTodos = () => {
    return async (dispatch: AppDispatch) => {
       try {
@@ -43,69 +55,64 @@ export const getUserTodos = () => {
             dispatch(setTodos(response))
          }
       } catch (err) {
-         // dispatch(fetchLoginUser({ email, password }))
-         dispatch(logout())
+         // logout(initialState)
       }
    }
+}
+
+export const logout = (state: todoState) => {
+   LocalStorageService.removeToken()
+   localStorage.removeItem('todos')
 }
 
 const todoSlice = createSlice({
    name: 'todos',
    initialState,
    reducers: {
-      logout(state: todoState) {
-         LocalStorageService.removeToken()
-         localStorage.removeItem('todos')
-         state.todos = []
-         console.log('Logout')
-      },
-      checkedTodo(state: todoState, action) {
-         state.todos = state.todos.map((todo, index) => {
-            if (index === action.payload.index) {
-               return { ...todo, checked: !todo.checked }
-            }
-            return todo
-         })
-         LocalStorageService.setTodos(state.todos)
-      },
-      editTodo(state: todoState, action) {
-         state.todos = state.todos.map((todo, index) => {
-            if (index === action.payload.index) {
-               return { ...todo, text: action.payload.inpValue }
-            }
-            return todo
-         })
-         LocalStorageService.setTodos(state.todos)
-      },
       setTodos(state: todoState, action) {
          state.todos = action.payload
       },
    },
+
    extraReducers: (builder) => {
       builder.addCase(fetchAddTodo.fulfilled, (state, action: any) => {
          state.todos.push(action.payload)
-         LocalStorageService.setTodos(state.todos)
-      })
-
-      // builder.addCase(logout, (state, action: any) => {
-      //    state.todos = []
-      //    LocalStorageService.setTodos(state.todos)
-      // })
-
-      builder.addCase(fetchAddTodo.rejected, (state, action: any) => {
-         console.log('Error')
-         logout()
       })
 
       builder.addCase(fetchDeleteTodo.fulfilled, (state, action: any) => {
          state.todos = state.todos.filter((todo) => todo.id !== action.payload)
          console.log(action.payload)
-         LocalStorageService.setTodos(state.todos)
+      })
+
+      builder.addCase(fetchAddTodo.rejected, (state, action: any) => {
+         logout(state)
+         console.log('reject from todosice')
+      })
+
+      builder.addCase(fetchDeleteTodo.rejected, (state, action: any) => {
+         logout(state)
+      })
+
+      builder.addCase(fetchEditTodo.fulfilled, (state, action: any) => {
+         state.todos = state.todos.map((todo) => {
+            if (todo.id === action.payload.index) {
+               return {
+                  ...todo,
+                  text: action.payload.text,
+                  checked: action.payload.checked,
+               }
+            }
+            return todo
+         })
+      })
+
+      builder.addCase(fetchEditTodo.rejected, (state, action: any) => {
+         logout(state)
       })
    },
 })
 
-export const { checkedTodo, editTodo, logout, setTodos } = todoSlice.actions
+export const { setTodos } = todoSlice.actions
 
 export const selectTodo = (state: RootState) => state.todos.todos
 
